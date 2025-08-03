@@ -8,7 +8,7 @@ def pascal_triangle(n):
     fake = []
     to_remove = 0
     if n <= 0:
-        yield current
+        # yield current
         return
     for i in range(n):
         if i < 2:
