@@ -1,17 +1,26 @@
 #!/usr/bin/python3
-"""the Pascal’s triangle"""
+""" pascal triangle """
 
 
 def pascal_triangle(n):
-    """the Pascal’s triangle"""
+    """ pascal triangle """
+    current = []
+    fake = []
+    to_remove = 0
     if n <= 0:
-        return []
-    triangle = [[1]]
-    for i in range(1, n):
-        prev_row = triangle[-1]
-        new_row = [1]
-        for j in range(1, i):
-            new_row.append(prev_row[j - 1] + prev_row[j])
-        new_row.append(1)
-        triangle.append(new_row)
-    return triangle
+        yield current
+        return
+    for i in range(n):
+        if i < 2:
+            current.append(1)
+            yield current
+        else:
+            for j in range(len(current) - 1):
+                fake.append(current[j] + current[j + 1])
+
+            current = current[:-1] + fake + current[-1:]
+            del current[1:1 + to_remove]
+
+            to_remove = len(fake)
+            fake = []
+            yield current
