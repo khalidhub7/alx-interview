@@ -4,9 +4,7 @@
 
 def pascal_triangle(n):
     """ pascal triangle """
-    current = []
-    fake = []
-    to_remove = 0
+    current, fake, to_remove = [], [], 0
     if n <= 0:
         # yield current
         return
@@ -21,6 +19,5 @@ def pascal_triangle(n):
             current = current[:-1] + fake + current[-1:]
             del current[1:1 + to_remove]
 
-            to_remove = len(fake)
-            fake = []
+            to_remove, fake = len(fake), []
             yield current
