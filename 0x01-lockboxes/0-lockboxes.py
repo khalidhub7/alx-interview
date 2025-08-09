@@ -15,15 +15,15 @@ def canUnlockAll(boxes):
     while queue:
         node = queue.popleft()
         if node not in visited:
-
             visited.append(node)
             if node < len(boxes):
-
                 for i in boxes[node]:
                     if i not in visited:
                         queue.append(i)
-
                 are_all_unlocked.append(True)
+    # debugging
+    # print(visited)
     # print(len(are_all_unlocked))
     # print(len(boxes))
+
     return len(are_all_unlocked) == len(boxes)
