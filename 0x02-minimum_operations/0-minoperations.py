@@ -15,19 +15,27 @@ def minOperations(n):
     clipboard_history = ['H']
 
     while True:
-        node = len(queue)
-        if node == n:
+        current_len = len(queue)
+        if current_len == n:
             break
 
-        if (node * 2) <= n:
+        if (current_len * 2) <= n:
             queue.extend(queue)
             operations += 2  # copy all + paste
             clipboard_history.append(''.join(queue))
+
         else:
-            rest = n - len(queue)
-            for i in clipboard_history:
+            rest = n - current_len
+
+            for i in reversed(clipboard_history):
                 if len(i) == rest:
                     queue.extend(i)  # paste
                     operations += 1
                     break
+                else:
+                    if len(i) < rest:
+                        queue.extend(i)  # paste
+                        operations += 1
+                        rest -= len(i)
+    # print(clipboard_history)
     return operations
