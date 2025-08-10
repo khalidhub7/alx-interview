@@ -1,27 +1,33 @@
 #!/usr/bin/python3
-"""Minimum Operations"""
+"""
+minimum operations to get n 'H'
+using copy all and paste
+"""
 
 
-def minOperations(n: int) -> int:
-    """
-    method that calculates
-    the fewest number of
-    operations needed to
-    result in exactly n
-    H characters in the file.
-    """
-    if n <= 1:
+def minOperations(n):
+    """ return min operations to reach n 'H' """
+    if n <= 0:
         return 0
-    cnoc = 1
-    """copy all"""
-    clipboard_size = 1
-    opNum = 1
-    while cnoc < n:
-        if cnoc != 1 and n % cnoc == 0:
-            """copy all"""
-            clipboard_size = cnoc
-            opNum += 1
-        """past"""
-        cnoc += clipboard_size
-        opNum += 1
-    return (opNum)
+
+    queue = ['H']
+    operations = 0
+    clipboard_history = ['H']
+
+    while True:
+        node = len(queue)
+        if node == n:
+            break
+
+        if (node * 2) <= n:
+            queue.extend(queue)
+            operations += 2  # copy all + paste
+            clipboard_history.append(''.join(queue))
+        else:
+            rest = n - len(queue)
+            for i in clipboard_history:
+                if len(i) == rest:
+                    queue.extend(i)  # paste
+                    operations += 1
+                    break
+    return operations
