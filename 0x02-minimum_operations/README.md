@@ -1,5 +1,8 @@
 # Minimum Operations to Get `n` H's
 
+<img src="../imgs/min_operations.png" alt="Prime Factor Jumps" style="margin-left:20px; margin-right:20px;">
+
+
 This function finds the most efficient way to reach exactly `n` H’s using only two actions:
 
 - **Copy All** – copy all the H’s on screen  
@@ -16,5 +19,3 @@ For `n = 12`, the prime factors are `2 × 2 × 3`.
 Following these factors step by step reaches 12 H’s in the minimum number of operations.
 
 ---
-
-<img src="../imgs/min_operations.png" alt="Prime Factor Jumps" style="margin-left:20px; margin-right:20px;">
