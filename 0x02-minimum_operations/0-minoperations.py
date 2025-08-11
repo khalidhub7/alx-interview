@@ -23,5 +23,5 @@ def minOperations(n):
                 clipboard = clipboard * divisor
                 break
             divisor += 1
-    print(clipboard)
+    # print(clipboard)
     return operations
