@@ -7,35 +7,21 @@ using copy all and paste
 
 def minOperations(n):
     """ return min operations to reach n 'H' """
-    if n <= 0:
+    if n <= 1:
         return 0
 
-    queue = ['H']
     operations = 0
-    clipboard_history = ['H']
+    clipboard = ['H']
+    new_n = n
 
-    while True:
-        current_len = len(queue)
-        if current_len == n:
-            break
-
-        if (current_len * 2) <= n:
-            queue.extend(queue)
-            operations += 2  # copy all + paste
-            clipboard_history.append(''.join(queue))
-
-        else:
-            rest = n - current_len
-
-            for i in reversed(clipboard_history):
-                if len(i) == rest:
-                    queue.extend(i)  # paste
-                    operations += 1
-                    break
-                else:
-                    if len(i) < rest:
-                        queue.extend(i)  # paste
-                        operations += 1
-                        rest -= len(i)
-    # print(clipboard_history)
+    while new_n > 1:
+        divisor = 2
+        while divisor <= new_n:
+            if new_n % divisor == 0:
+                operations += divisor
+                new_n = new_n // divisor
+                clipboard = clipboard * divisor
+                break
+            divisor += 1
+    print(clipboard)
     return operations
