@@ -11,7 +11,7 @@ def minOperations(n):
         return 0
 
     operations = 0
-    clipboard = ['H']
+    length = 1  # start with 1 'H'
     new_n = n
 
     while new_n > 1:
@@ -19,9 +19,8 @@ def minOperations(n):
         while divisor <= new_n:
             if new_n % divisor == 0:
                 operations += divisor
-                new_n = new_n // divisor
-                clipboard = clipboard * divisor
+                new_n //= divisor
+                length *= divisor
                 break
             divisor += 1
-    # print(clipboard)
     return operations
