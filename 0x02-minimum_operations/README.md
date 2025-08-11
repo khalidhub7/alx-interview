@@ -17,4 +17,4 @@ Following these factors step by step reaches 12 H’s in the minimum number of o
 
 ---
 
-![Prime Factor Jumps](../imgs/min_operations.png)
+<img src="../imgs/min_operations.png" alt="Prime Factor Jumps" style="margin-left:20px; margin-right:20px;">
