@@ -1,6 +1,6 @@
 # Minimum Operations to Get `n` H's
 
-<img src="../imgs/min_operations.png" alt="Prime Factor Jumps" style="margin-left:20px; margin-right:20px;">
+<img src="../imgs/min_operations.png" alt="Prime Factor Jumps" style="margin-left:20px; margin-right:20px;" width="400">
 
 
 This function finds the most efficient way to reach exactly `n` H’s using only two actions:
