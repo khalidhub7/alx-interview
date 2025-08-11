@@ -19,7 +19,6 @@ def minOperations(n):
         while True:
             if new_n % divisor == 0:
                 new_n = new_n // divisor
-                print(new_n)
                 operations += divisor
                 clipboard_len *= divisor
                 break
