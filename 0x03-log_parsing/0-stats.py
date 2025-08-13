@@ -5,27 +5,28 @@ Log parsing
 
 import sys
 import re
+import signal
 from datetime import datetime
 
 
 all_status = {
-    '200': 0,
-    '301': 0,
-    '400': 0,
-    '401': 0,
-    '403': 0,
-    '404': 0,
-    '405': 0,
-    '500': 0
+    '200': 0, '301': 0, '400': 0, '401': 0,
+    '403': 0, '404': 0, '405': 0, '500': 0
 }
 size = 0
+temp = []
 
 # matches numbers 1–255
 byte_pattern = '(?:[1-9]|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])'
-pattern = r'^({0}\.){{3}}{0} - \[(.*?)\] "GET /projects/260 HTTP/1\.1" (\d+) (\d+)\n$'\
-    .format(byte_pattern)
+pattern = (
+    r'^({0}\.){{3}}{0} - \[(.*?)\] '
+    r'"GET /projects/260 HTTP/1\.1" (\d+) (\d+)\n$'
+).format(byte_pattern)
 
-for line in sys.stdin:
+
+def logParsing(line):
+    """ logParsing """
+    global size
     m = re.match(pattern, line)
     if m:
         date = m.group(2)
@@ -33,6 +34,7 @@ for line in sys.stdin:
         if status in all_status:
             all_status[status] += 1
         size += int(m.group(4))
+
         try:
             valid_date = datetime.strptime(
                 date, "%Y-%m-%d %H:%M:%S.%f")
@@ -40,7 +42,34 @@ for line in sys.stdin:
             valid_date = None
 
         if valid_date and status in all_status:
-            print(f'File size: {size}')
-            for k, v in all_status.items():
-                if v != 0:
-                    print(f'{k}: {v}')
+            temp.append(m)
+
+# define a signal
+
+
+def handler(signum, frame):
+    """ handle signal """
+    print(f'File size: {size}')
+    for k, v in all_status.items():
+        if v != 0:
+            print(f'{k}: {v}')
+
+
+signal.signal(2, handler)
+
+for line in sys.stdin:
+    if len(temp) != 10:
+        logParsing(line)
+    else:
+        print(f'File size: {size}')
+        for k, v in all_status.items():
+            if v != 0:
+                print(f'{k}: {v}')
+
+        size = 0
+        temp.clear()
+        all_status = {
+            '200': 0, '301': 0, '400': 0, '401': 0,
+            '403': 0, '404': 0, '405': 0, '500': 0
+        }
+        logParsing(line)
