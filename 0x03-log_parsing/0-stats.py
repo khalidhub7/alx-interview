@@ -57,6 +57,7 @@ def handler(signum, frame):
 
 signal.signal(2, handler)
 
+
 for line in sys.stdin:
     if len(temp) != 10:
         logParsing(line)
@@ -66,7 +67,7 @@ for line in sys.stdin:
             if v != 0:
                 print(f'{k}: {v}')
 
-        size = 0
+        # size = 0
         temp.clear()
         all_status = {
             '200': 0, '301': 0, '400': 0, '401': 0,
