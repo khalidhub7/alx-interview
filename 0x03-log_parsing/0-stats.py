@@ -14,7 +14,7 @@ all_status = {
     '403': 0, '404': 0, '405': 0, '500': 0
 }
 size = 0
-temp = []
+lines = 0
 
 # matches numbers 1–255
 byte_pattern = '(?:[1-9]|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])'
@@ -27,6 +27,7 @@ pattern = (
 def logParsing(line):
     """ logParsing """
     global size
+    global lines
     m = re.match(pattern, line)
     if m:
         date = m.group(2)
@@ -42,7 +43,7 @@ def logParsing(line):
             valid_date = None
 
         if valid_date and status in all_status:
-            temp.append(m)
+            lines += 1
 
 # define a signal
 
@@ -59,7 +60,7 @@ signal.signal(2, handler)
 
 
 for line in sys.stdin:
-    if len(temp) != 10:
+    if lines != 10:
         logParsing(line)
     else:
         print(f'File size: {size}')
@@ -67,10 +68,10 @@ for line in sys.stdin:
             if v != 0:
                 print(f'{k}: {v}')
 
-        # size = 0
-        temp.clear()
+        lines = 0
+        """ size = 0
         all_status = {
             '200': 0, '301': 0, '400': 0, '401': 0,
             '403': 0, '404': 0, '405': 0, '500': 0
-        }
+        } """
         logParsing(line)
