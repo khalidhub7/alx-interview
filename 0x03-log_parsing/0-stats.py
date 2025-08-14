@@ -52,8 +52,7 @@ for line in sys.stdin:
     m = re.match(pattern, line)
     i += 1
     if m:
-        date = m.group(1)
-        status = m.group(2)
+        date, status = m.group(1), m.group(2)
         try:
             valid_date = datetime.strptime(
                 date, "%Y-%m-%d %H:%M:%S.%f")
