@@ -22,8 +22,8 @@ all_status = {
 # ).format(byte_pattern)
 
 pattern = (
-    r'^(\S+?)\s*-\s*\[(.*?)\] '
-    r'"GET /projects/260 HTTP/1\.1" (\d+) (\d+)$'
+    r'^\S+?\s*-\s*\[(.*?)\] '
+    r'"GET /projects/260 HTTP/1\.1" (\d+) \d+$'
 )
 
 
@@ -53,8 +53,8 @@ for line in sys.stdin:
     m = re.match(pattern, line)
     i += 1
     if m:
-        date = m.group(2)
-        status = m.group(3)
+        date = m.group(1)
+        status = m.group(2)
         try:
             valid_date = datetime.strptime(
                 date, "%Y-%m-%d %H:%M:%S.%f")
@@ -67,4 +67,4 @@ for line in sys.stdin:
     if i % 10 == 0:
         show_stats()
 
-show_stats()
+show_stats()  # this is like EOF
