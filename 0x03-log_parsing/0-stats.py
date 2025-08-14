@@ -20,7 +20,7 @@ i = 0
 byte_pattern = '(?:[1-9]|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])'
 pattern = (
     r'^({0}\.){{3}}{0} - \[(.*?)\] '
-    r'"GET /projects/260 HTTP/1\.1" (\d+) (\d+)\n$'
+    r'"GET /projects/260 HTTP/1\.1" (\d+) (\d+)$'
 ).format(byte_pattern)
 
 
@@ -33,29 +33,30 @@ def handler(signum, frame):
     for k, v in all_status.items():
         if v != 0:
             print(f'{k}: {v}')
+    sys.exit(0)
 
 
 signal.signal(2, handler)
 
 
 for line in sys.stdin:
-    i += 1
     m = re.match(pattern, line)
+    i += 1
     if m:
         date = m.group(2)
         status = m.group(3)
-        if status in all_status:
-            all_status[status] += 1
-        size += int(m.group(4))
-
         try:
             valid_date = datetime.strptime(
                 date, "%Y-%m-%d %H:%M:%S.%f")
         except Exception:
             valid_date = None
 
-        if i % 10 == 0 and valid_date and status in all_status:
-            print(f'File size: {size}')
-            for k, v in all_status.items():
-                if v != 0:
-                    print(f'{k}: {v}')
+        if status in all_status and valid_date:
+            all_status[status] += 1
+            size += int(m.group(4))
+
+    if i % 10 == 0:
+        print(f'File size: {size}')
+        for k, v in all_status.items():
+            if v != 0:
+                print(f'{k}: {v}')
