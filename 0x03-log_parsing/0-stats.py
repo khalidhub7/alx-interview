@@ -1,21 +1,17 @@
 #!/usr/bin/python3
-"""
-Log parsing
-"""
-
+""" log parsing """
 import sys
 import re
 import signal
 from datetime import datetime
 
 
+i = 0
+size = 0
 all_status = {
     '200': 0, '301': 0, '400': 0, '401': 0,
     '403': 0, '404': 0, '405': 0, '500': 0
 }
-size = 0
-i = 0
-
 # matches numbers 1–255
 byte_pattern = '(?:[1-9]|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])'
 pattern = (
@@ -24,15 +20,17 @@ pattern = (
 ).format(byte_pattern)
 
 
-# define a signal
-
-
-def handler(signum, frame):
-    """ handle signal """
+def show_stats():
+    """ show logs """
     print(f'File size: {size}')
     for k, v in all_status.items():
         if v != 0:
             print(f'{k}: {v}')
+
+
+def handler(signum, frame):
+    """ handle signal """
+    show_stats()
     sys.exit(0)
 
 
@@ -56,7 +54,6 @@ for line in sys.stdin:
             size += int(m.group(4))
 
     if i % 10 == 0:
-        print(f'File size: {size}')
-        for k, v in all_status.items():
-            if v != 0:
-                print(f'{k}: {v}')
+        show_stats()
+
+show_stats()
