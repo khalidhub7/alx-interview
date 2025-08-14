@@ -45,6 +45,11 @@ signal.signal(2, handler)
 
 
 for line in sys.stdin:
+    try:
+        file_size = line.split()[-1]
+        size += int(file_size)
+    except Exception:
+        size += 0
     m = re.match(pattern, line)
     i += 1
     if m:
@@ -58,7 +63,6 @@ for line in sys.stdin:
 
         if status in all_status and valid_date:
             all_status[status] += 1
-            size += int(m.group(4))
 
     if i % 10 == 0:
         show_stats()
