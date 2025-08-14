@@ -12,12 +12,19 @@ all_status = {
     '200': 0, '301': 0, '400': 0, '401': 0,
     '403': 0, '404': 0, '405': 0, '500': 0
 }
-# matches numbers 1–255
-byte_pattern = '(?:[1-9]|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])'
+
+# just for learning
+# matches numbers 1-255 (unused for this version)
+# byte_pattern = '(?:[1-9]|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])'
+# pattern = (
+#    r'^({0}\.){{3}}{0} - \[(.*?)\] '
+#    r'"GET /projects/260 HTTP/1\.1" (\d+) (\d+)$'
+# ).format(byte_pattern)
+
 pattern = (
-    r'^({0}\.){{3}}{0} - \[(.*?)\] '
+    r'^(\S+?)\s*-\s*\[(.*?)\] '
     r'"GET /projects/260 HTTP/1\.1" (\d+) (\d+)$'
-).format(byte_pattern)
+)
 
 
 def show_stats():
